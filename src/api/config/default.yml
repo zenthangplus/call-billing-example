@@ -1,0 +1,9 @@
+app:
+  name: Call Billing API
+
+  call:
+    maxUsernameLength: 32
+
+  billing:
+    blockTime: 30s
+    pricePerBlock: 0.2

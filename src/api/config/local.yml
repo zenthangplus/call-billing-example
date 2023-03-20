@@ -1,0 +1,13 @@
+app:
+  port: 8080
+  logging.development: true
+  swagger.enabled: true
+
+  datasource:
+    driver: mysql
+    host: localhost
+    port: 3306
+    database: sample
+    username: root
+    password: secret
+    params: parseTime=true

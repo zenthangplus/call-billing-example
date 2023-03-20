@@ -1,0 +1,59 @@
+definitions:
+  resource.EndCallRequest:
+    properties:
+      call_duration:
+        type: integer
+    type: object
+  response.Meta:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      data: {}
+      meta:
+        $ref: '#/definitions/response.Meta'
+    type: object
+info:
+  contact: {}
+  title: Sample Public API
+  version: 1.0.0
+paths:
+  /v1/mobile/{username}/call:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/resource.EndCallRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: End a call
+      tags:
+      - CallController
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
