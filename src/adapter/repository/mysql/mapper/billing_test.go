@@ -9,8 +9,8 @@ import (
 )
 
 func TestBillingModelToEntity(t *testing.T) {
-	t1, _ := time.Parse(time.DateTime, "2023-01-02 15:04:05")
-	t2, _ := time.Parse(time.DateTime, "2023-01-02 15:04:06")
+	t1 := time.Unix(1679330938, 0)
+	t2 := time.Unix(1679330940, 0)
 	type args struct {
 		m *model.Billing
 	}

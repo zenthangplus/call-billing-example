@@ -20,3 +20,6 @@ jobs:
 
       - name: Run Tests
         run: go test -v ./...
+        env:
+          APP_DATASOURCE_DRIVER: sqlite
+          APP_DATASOURCE_DSN: sqlite.db
