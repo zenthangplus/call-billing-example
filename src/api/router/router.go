@@ -32,5 +32,5 @@ func RegisterGinRouters(p RegisterRoutersIn) {
 		group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	group.POST("/v1/mobile/:username/call", p.OrderController.EndCall)
+	group.PUT("/v1/mobile/:username/call", p.OrderController.EndCall)
 }
