@@ -1,0 +1,16 @@
+FROM golang:1.18-alpine AS builder
+ARG BUILD_MODULE
+ENV GO111MODULE=on
+RUN apk add --no-cache git
+COPY . /go/app
+WORKDIR /go/app
+RUN env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ./binary ./src/$BUILD_MODULE
+
+FROM scratch
+ARG BUILD_MODULE
+COPY --from=builder /go/app/src/$BUILD_MODULE/config /app/config
+COPY --from=builder /go/app/src/$BUILD_MODULE/migrations /app/migrations
+COPY --from=builder /go/app/binary /app
+EXPOSE 8080
+WORKDIR /app
+ENTRYPOINT ["./binary"]

@@ -9,5 +9,38 @@ services:
     environment:
       MYSQL_DATABASE: sample
       MYSQL_ROOT_PASSWORD: secret
+    healthcheck:
+      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+      interval: 2s
+      timeout: 2s
+      retries: 10
     ports:
       - "3306:3306"
+
+  migration:
+    container_name: call-billing-example-migration
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.migration
+      args:
+        BUILD_MODULE: migration
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      APP_DATASOURCE_HOST: mysql
+
+  api:
+    container_name: call-billing-example-api
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        BUILD_MODULE: api
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      APP_DATASOURCE_HOST: mysql
+    ports:
+      - "8080:8080"
