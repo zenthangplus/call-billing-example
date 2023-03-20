@@ -18,8 +18,9 @@ type RegisterRoutersIn struct {
 	Engine       *gin.Engine
 	SwaggerProps *properties.SwaggerProperties
 
-	Actuator        *actuator.Endpoint
-	OrderController *controller.CallController
+	Actuator          *actuator.Endpoint
+	CallController    *controller.CallController
+	BillingController *controller.BillingController
 }
 
 func RegisterGinRouters(p RegisterRoutersIn) {
@@ -32,5 +33,6 @@ func RegisterGinRouters(p RegisterRoutersIn) {
 		group.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 
-	group.PUT("/v1/mobile/:username/call", p.OrderController.EndCall)
+	group.PUT("/v1/mobile/:username/call", p.CallController.EndCall)
+	group.GET("/v1/mobile/:username/billing", p.BillingController.GetBilling)
 }

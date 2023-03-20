@@ -64,6 +64,7 @@ func All() fx.Option {
 		// Provide controllers, these controllers will be used
 		// when register router was invoked
 		fx.Provide(controller.NewCallController),
+		fx.Provide(controller.NewBillingController),
 
 		// Provide application listeners
 		golib.ProvideEventListener(listener.NewBillingAggregation),

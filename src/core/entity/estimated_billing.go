@@ -2,6 +2,7 @@ package entity
 
 import (
 	"github.com/pkg/errors"
+	"math"
 	"time"
 )
 
@@ -18,7 +19,7 @@ func NewEstimatedBilling(billing *Billing, blockTime time.Duration, pricePerBloc
 		return nil, errors.New("invalid block time")
 	}
 	blockCountF := float64(billing.CallDuration) / float64(blockTime)
-	blockCount := int64(blockCountF + 0.5)
+	blockCount := int64(math.Ceil(blockCountF))
 	price := float64(blockCount) * pricePerBlock
 	return &EstimatedBilling{
 		Billing:       *billing,

@@ -60,8 +60,8 @@ func (b BillingRepositoryAdapter) IncreaseByUsername(ctx context.Context, userna
 
 func (b BillingRepositoryAdapter) FindOneByUsername(ctx context.Context, username string) (*entity.Billing, error) {
 	var bill = model.Billing{Username: username}
-	result := b.db.First(&bill)
-	if result.Error == nil {
+	result := b.db.WithContext(ctx).First(&bill)
+	if result.Error != nil {
 		return nil, b.handleError(result.Error)
 	}
 	return mapper.BillingModelToEntity(&bill), nil

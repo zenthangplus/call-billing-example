@@ -22,6 +22,28 @@ info:
   title: Sample Public API
   version: 1.0.0
 paths:
+  /v1/mobile/{username}/billing:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: Get billing for a user
+      tags:
+      - BillingController
   /v1/mobile/{username}/call:
     put:
       consumes:

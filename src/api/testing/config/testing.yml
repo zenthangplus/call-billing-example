@@ -11,3 +11,10 @@ app:
     password: secret
     params: parseTime=true
     migrationSource: file://../../migration/migrations
+
+  call:
+    maxUsernameLength: 32
+
+  billing:
+    blockTime: 30s
+    pricePerBlock: 0.2
