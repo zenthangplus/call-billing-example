@@ -25,4 +25,13 @@ jobs:
           mysql root password: 'secret'
 
       - name: Run Tests
-        run: go test -v ./...
+        run: go test -v ./... -coverprofile=coverage.txt
+
+      - name: Upload coverage report
+        if: github.ref == 'refs/heads/master'
+        uses: codecov/codecov-action@v1.0.2
+        with:
+          token: ${{ secrets.CODECOV_ACCESS_TOKEN }}
+          file: ./coverage.txt
+          flags: unittests
+          name: codecov-umbrella
