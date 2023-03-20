@@ -20,7 +20,18 @@ func TestBillingController_WhenGetBilling_GivenMissingUsername_ShouldBadRequest(
 		Body("meta.message", enum.ErrMissingUsername.Message())
 }
 
-func TestBillingController_WhenGetBilling_GivenValidRequest_ShouldSuccess(t *testing.T) {
+func TestBillingController_WhenGetBilling_GivenValidRequestAndNoBillingFound_ShouldSuccess(t *testing.T) {
+	golibdataTestUtil.TruncateTables("billings")
+	golibtest.NewRestAssured(t).
+		When().
+		Get("/v1/mobile/user2/billing").
+		Then().
+		Status(http.StatusNotFound).
+		Body("meta.code", enum.ErrBillingNotFound.Code()).
+		Body("meta.message", enum.ErrBillingNotFound.Message())
+}
+
+func TestBillingController_WhenGetBilling_GivenValidRequestAndBillingFound_ShouldSuccess(t *testing.T) {
 	golibdataTestUtil.TruncateTables("billings")
 	bill1 := model.Billing{Username: "user1", CallDuration: 3000, CallCount: 1}
 	bill2 := model.Billing{Username: "user2", CallDuration: 70000, CallCount: 3}
