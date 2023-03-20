@@ -27,11 +27,32 @@ const docTemplate = `{
                     "BillingController"
                 ],
                 "summary": "Get billing for a user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/resource.BillingResponse"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -62,6 +83,13 @@ const docTemplate = `{
                 ],
                 "summary": "End a call",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "Request body",
                         "name": "request",
@@ -96,6 +124,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "resource.BillingResponse": {
+            "type": "object",
+            "properties": {
+                "block_count": {
+                    "type": "integer"
+                },
+                "call_count": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
         "resource.EndCallRequest": {
             "type": "object",
             "properties": {

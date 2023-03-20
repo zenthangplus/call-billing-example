@@ -1,4 +1,15 @@
 definitions:
+  resource.BillingResponse:
+    properties:
+      block_count:
+        type: integer
+      call_count:
+        type: integer
+      id:
+        type: integer
+      price:
+        type: number
+    type: object
   resource.EndCallRequest:
     properties:
       call_duration:
@@ -26,13 +37,24 @@ paths:
     get:
       consumes:
       - application/json
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.Response'
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/resource.BillingResponse'
+              type: object
         "400":
           description: Bad Request
           schema:
@@ -49,6 +71,11 @@ paths:
       consumes:
       - application/json
       parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
       - description: Request body
         in: body
         name: request

@@ -6,7 +6,6 @@ import (
 	"github.com/zenthangplus/call-billing-example/src/core/config"
 	"github.com/zenthangplus/call-billing-example/src/core/entity"
 	"github.com/zenthangplus/call-billing-example/src/core/port"
-	"gitlab.com/golibs-starter/golib/log"
 )
 
 type DefaultBillingService struct {
@@ -29,12 +28,8 @@ func (d DefaultBillingService) Aggregate(ctx context.Context, call *entity.Call)
 	if err != nil {
 		return errors.WithMessage(err, "Cannot start transaction")
 	}
-	defer func() {
-		if err := txRepo.Rollback(ctx); err != nil {
-			log.Errorf("Cannot rollback transaction with error [%s]", err)
-			return
-		}
-	}()
+	defer txRepo.Rollback(ctx)
+
 	exists, err := txRepo.ExistsByUsername(ctx, call.Username)
 	if err != nil {
 		return errors.WithMessage(err, "cannot check billing is exists or not")

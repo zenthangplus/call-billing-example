@@ -36,7 +36,8 @@ func (b BillingRepositoryAdapter) Rollback(ctx context.Context) error {
 
 func (b BillingRepositoryAdapter) ExistsByUsername(ctx context.Context, username string) (bool, error) {
 	var exists bool
-	tx := b.db.WithContext(ctx).Model(&model.Billing{}).
+	tx := b.db.WithContext(ctx).
+		Model(&model.Billing{}).
 		Select("count(*) > 0").
 		Where("username = ?", username).
 		Find(&exists)
@@ -59,8 +60,10 @@ func (b BillingRepositoryAdapter) IncreaseByUsername(ctx context.Context, userna
 }
 
 func (b BillingRepositoryAdapter) FindOneByUsername(ctx context.Context, username string) (*entity.Billing, error) {
-	var bill = model.Billing{Username: username}
-	result := b.db.WithContext(ctx).First(&bill)
+	var bill model.Billing
+	result := b.db.WithContext(ctx).
+		Where(&model.Billing{Username: username}).
+		First(&bill)
 	if result.Error != nil {
 		return nil, b.handleError(result.Error)
 	}

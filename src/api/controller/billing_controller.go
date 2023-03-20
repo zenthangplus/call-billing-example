@@ -22,7 +22,8 @@ func NewBillingController(service service.BillingService) *BillingController {
 // @Tags BillingController
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} response.Response
+// @Param	username	path	string	true	"username"
+// @Success 200 {object} response.Response{data=resource.BillingResponse}
 // @Success 400 {object} response.Response
 // @Failure 500 {object} response.Response
 // @Router /v1/mobile/{username}/billing [get]

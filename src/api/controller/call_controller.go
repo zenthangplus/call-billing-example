@@ -23,6 +23,7 @@ func NewCallController(service service.CallService) *CallController {
 // @Tags CallController
 // @Accept  json
 // @Produce  json
+// @Param	username	path	string	true	"username"
 // @Param request body resource.EndCallRequest true "Request body"
 // @Success 200 {object} response.Response
 // @Success 400 {object} response.Response
