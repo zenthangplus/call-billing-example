@@ -4,3 +4,12 @@
 [![codecov](https://codecov.io/gh/zenthangplus/call-billing-example/branch/main/graph/badge.svg)](https://codecov.io/gh/zenthangplus/call-billing-example)
 [![goreportcard](https://goreportcard.com/badge/github.com/zenthangplus/call-billing-example)](https://goreportcard.com/report/github.com/zenthangplus/call-billing-example)
 
+## Setup
+
+### Using docker
+
+Simply run the following command to start all necessary modules:
+
+```shell
+docker-compose up
+```
