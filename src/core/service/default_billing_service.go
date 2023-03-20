@@ -13,6 +13,16 @@ type DefaultBillingService struct {
 	conf *config.BillingConfig
 }
 
+func NewDefaultBillingService(
+	repo port.BillingRepository,
+	conf *config.BillingConfig,
+) *DefaultBillingService {
+	return &DefaultBillingService{
+		repo: repo,
+		conf: conf,
+	}
+}
+
 func (d DefaultBillingService) Aggregate(ctx context.Context, call *entity.Call) error {
 	err := d.repo.IncreaseByUsername(ctx, call.Username, call.Duration, 1)
 	if err != nil {

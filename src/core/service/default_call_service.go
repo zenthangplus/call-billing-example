@@ -5,6 +5,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/zenthangplus/call-billing-example/src/core/config"
 	"github.com/zenthangplus/call-billing-example/src/core/entity"
+	"github.com/zenthangplus/call-billing-example/src/core/enum"
 	"github.com/zenthangplus/call-billing-example/src/core/event"
 	"github.com/zenthangplus/call-billing-example/src/core/port"
 	"time"
@@ -30,13 +31,13 @@ func NewDefaultCallService(
 
 func (d DefaultCallService) EndCall(ctx context.Context, username string, durationMs int64) (*entity.Call, error) {
 	if username == "" {
-		return nil, errors.New("missing username")
+		return nil, enum.ErrMissingUsername
 	}
 	if len(username) > d.conf.MaxUsernameLength {
-		return nil, errors.New("invalid username")
+		return nil, enum.ErrInvalidUsername
 	}
 	if durationMs <= 0 {
-		return nil, errors.New("invalid duration")
+		return nil, enum.ErrInvalidDuration
 	}
 	call, err := d.repo.Create(ctx, username, time.Duration(durationMs)*time.Millisecond)
 	if err != nil {
