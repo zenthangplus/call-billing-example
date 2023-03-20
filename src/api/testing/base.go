@@ -3,6 +3,7 @@ package testing
 import (
 	"github.com/zenthangplus/call-billing-example/src/api/bootstrap"
 	"gitlab.com/golibs-starter/golib"
+	golibdataTestUtil "gitlab.com/golibs-starter/golib-data/testutil"
 	"gitlab.com/golibs-starter/golib-migrate"
 	"gitlab.com/golibs-starter/golib-test"
 	"gitlab.com/golibs-starter/golib/log"
@@ -23,6 +24,7 @@ func init() {
 		golib.ProvidePropsOption(golib.WithPaths([]string{"../config/", "./config/"})),
 		golibmigrate.MigrationOpt(),
 		golibtest.EnableWebTestUtil(),
+		golibdataTestUtil.EnableDatabaseTestUtilOpt(),
 		fx.Populate(&db),
 		bootstrap.All(),
 	)
