@@ -6,6 +6,7 @@ import (
 	"github.com/zenthangplus/call-billing-example/src/core/config"
 	"github.com/zenthangplus/call-billing-example/src/core/entity"
 	"github.com/zenthangplus/call-billing-example/src/core/port"
+	"gitlab.com/golibs-starter/golib/log"
 )
 
 type DefaultBillingService struct {
@@ -24,9 +25,34 @@ func NewDefaultBillingService(
 }
 
 func (d DefaultBillingService) Aggregate(ctx context.Context, call *entity.Call) error {
-	err := d.repo.IncreaseByUsername(ctx, call.Username, call.Duration, 1)
+	txRepo, err := d.repo.Begin(ctx)
 	if err != nil {
+		return errors.WithMessage(err, "Cannot start transaction")
+	}
+	defer func() {
+		if err := txRepo.Rollback(ctx); err != nil {
+			log.Errorf("Cannot rollback transaction with error [%s]", err)
+			return
+		}
+	}()
+	exists, err := txRepo.ExistsByUsername(ctx, call.Username)
+	if err != nil {
+		return errors.WithMessage(err, "cannot check billing is exists or not")
+	}
+	if !exists {
+		if err := txRepo.Create(ctx, call.Username, call.Duration, 1); err != nil {
+			return errors.WithMessage(err, "create billing failed")
+		}
+		if err := txRepo.Commit(ctx); err != nil {
+			return errors.WithMessage(err, "create billing failed")
+		}
+		return nil
+	}
+	if err := d.repo.IncreaseByUsername(ctx, call.Username, call.Duration, 1); err != nil {
 		return errors.WithMessage(err, "cannot increase billing data")
+	}
+	if err := txRepo.Commit(ctx); err != nil {
+		return errors.WithMessage(err, "create billing failed")
 	}
 	return nil
 }

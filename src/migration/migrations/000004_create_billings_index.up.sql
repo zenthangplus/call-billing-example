@@ -1,2 +1,2 @@
-create index billings_username_index
+create unique index billings_username_index
 	on billings (username);

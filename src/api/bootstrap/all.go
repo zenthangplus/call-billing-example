@@ -4,6 +4,7 @@ import (
 	"github.com/zenthangplus/call-billing-example/src/adapter/publisher"
 	"github.com/zenthangplus/call-billing-example/src/adapter/repository/mysql"
 	"github.com/zenthangplus/call-billing-example/src/api/controller"
+	"github.com/zenthangplus/call-billing-example/src/api/listener"
 	"github.com/zenthangplus/call-billing-example/src/api/properties"
 	"github.com/zenthangplus/call-billing-example/src/api/router"
 	"github.com/zenthangplus/call-billing-example/src/core/port"
@@ -63,6 +64,9 @@ func All() fx.Option {
 		// Provide controllers, these controllers will be used
 		// when register router was invoked
 		fx.Provide(controller.NewCallController),
+
+		// Provide application listeners
+		golib.ProvideEventListener(listener.NewBillingAggregation),
 
 		// Provide gin http server auto config,
 		// actuator endpoints and application routers
