@@ -1,0 +1,13 @@
+version: '2.2'
+
+services:
+  mysql:
+    container_name: call-billing-example-mysql
+    image: mysql:8.0
+    volumes:
+      - ./docker/mysql/init-database-test.sql:/docker-entrypoint-initdb.d/init-database-test.sql
+    environment:
+      MYSQL_DATABASE: sample
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
