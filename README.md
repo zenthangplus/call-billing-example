@@ -50,7 +50,7 @@
      └──────┘              └───────┘                └──┘          └────────┘          └────────────┘          └──────────┘
 
 ## Project structure
-To ensure productivity, this project was built on [Golib framework](https://gitlab.com/golibs-starter), and designed under **Clean Architecture**.
+To ensure productivity, this project was built on [Golib framework](https://gitlab.com/golibs-starter) (based on Native Http Server + Gin framework), and designed under **Clean Architecture**.
 Include the following modules:
 
 - [Business Rules Layer: Core](./src/core)
