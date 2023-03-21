@@ -76,3 +76,7 @@ The **API Service** will be exposed under `8080` port. Swagger also exposed unde
 This project contains both **Unit Tests** and **Integration Tests** as well.
 
 For Integration Tests you can check in [./src/api/testing](./src/api/testing) directory.
+
+```shell
+go test ./...
+```
